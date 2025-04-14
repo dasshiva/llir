@@ -1,0 +1,3 @@
+[submodule "libcmdline"]
+	path = libcmdline
+	url = https://github.com/dasshiva/libcmdline
