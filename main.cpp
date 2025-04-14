@@ -1,7 +1,6 @@
 #include "libcmdline/libcmdline.h"
-#include <fstream>
 #include <iostream>
-#include <ostream>
+#include "lexer.hpp"
 #include <stdlib.h>
 
 // First declare the command line options accepted by the application
@@ -29,14 +28,20 @@ int main(int argc, const char** argv) {
 		return 1;
 	}
 
-    std::ifstream ifile;
-    ifile.open(file.Args[0].String);
-    if (!ifile.is_open()) {
-        std::cout << "File " << file.Args[0].String << " not found\n";
+    CharStream cst(file.Args->String);
+    if (!cst.IsOpen()) {
+        std::cout << "Failed to open " << file.Args->String << std::endl;
         return 1;
     }
-    ifile.close();
-    
+
+    while (1) {
+        char c = cst.Next();
+        if (c == CST_EOF) break;
+        //std::cout << c;
+    }
+
+    //std::cout << std::endl;
+    cst.DumpLines();
 	FreeOptionArgs((Option**)&options);
 	return 0;
 }
